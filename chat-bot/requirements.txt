@@ -1,0 +1,6 @@
+langchain
+pypdf
+sentence-transformers
+fastapi
+black
+faiss-cpu
