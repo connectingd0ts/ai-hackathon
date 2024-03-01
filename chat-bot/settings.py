@@ -1,7 +1,7 @@
 from RAG import skill
 import os
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 
 rag = skill.RAGSkill()
 
