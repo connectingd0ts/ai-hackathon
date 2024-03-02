@@ -19,10 +19,7 @@ def get_error_suggestions(log):
         n=1,  # number of completions to retrieve
         stop=None,
         temperature=0.7,
-        top_p=0.95,
-        frequency_penalty=0.2,
-        presence_penalty=0.6,
-        random_token_probability=0.1)
+        top_p=0.95)
 
     return response['choices'][0]['text'].strip()
 
