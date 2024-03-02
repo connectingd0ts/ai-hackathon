@@ -13,17 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker image
-        run: docker build -t my-flask-app . -t test-image &> build_log.txt
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
       
+      - name: Install CI dependencies
+        run: pip install openai
+
       - name: Install dependencies
-        run: |
-          pip install openai
+        run: pip install -r requirements.txt
+
+      - name: Build
+        run: python main.py 2>&1 | tee build_log.txt
 
       - name: Generate Error Suggestion
         env:
