@@ -1,0 +1,35 @@
+name: Build App
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      
+      - name: Install CI dependencies
+        run: pip install openai
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build
+        run: timeout 10s python chat-bot/main.py 2>&1 | tee build_log.txt
+
+      - name: Generate Error Suggestion
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_AI_KEY }}
+        if: ${{ vars.ENABLE_BUILD_SUGGESTIONS == 'true' }}
+        run: |
+          python .github/scripts/build-error-suggestions.py build_log.txt
