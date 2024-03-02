@@ -25,7 +25,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build
-        run: python main.py 2>&1 | tee build_log.txt
+        run: timeout 10s python main.py 2>&1 | tee build_log.txt
 
       - name: Generate Error Suggestion
         env:
