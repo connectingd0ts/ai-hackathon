@@ -3,7 +3,7 @@ name: Build App
 on:
   push:
     branches:
-      - main
+      - '**'
 
 jobs:
   build:
@@ -13,13 +13,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker image
-        run: docker build -t my-flask-app .
-
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      
+      - name: Install CI dependencies
+        run: pip install openai
 
-      # - name: Install dependencies
-      #   run: pip install --no-cache-dir -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build
+        run: timeout 10s python main.py 2>&1 | tee build_log.txt
+
+      - name: Generate Error Suggestion
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_AI_KEY }}
+        if: ${{ vars.ENABLE_BUILD_SUGGESTIONS == 'true' }}
+        run: |
+          python .github/scripts/build-error-suggestions.py build_log.txt
