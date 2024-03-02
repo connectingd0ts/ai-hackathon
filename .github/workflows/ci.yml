@@ -30,6 +30,6 @@ jobs:
       - name: Generate Error Suggestion
         env:
           OPEN_AI_KEY: ${{ secrets.OPEN_AI_KEY }}
-        if: failure()
+        if: ${{ vars.ENABLE_BUILD_SUGGESTIONS == 'true' }}
         run: |
           python .github/scripts/build-error-suggestions.py build_log.txt
