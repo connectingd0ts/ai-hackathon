@@ -1,4 +1,5 @@
 langchain
+openai
 pypdf
 sentence-transformers
 fastapi

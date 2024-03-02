@@ -8,6 +8,9 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import settings
 import uvicorn
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 app = FastAPI()
@@ -20,8 +23,8 @@ app.add_middleware(
 )
 
 
-@app.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
+@app.post("/upload_pdf")
+async def read_pdf_file(file: UploadFile = File(...)):
     """
     This endpoint is used to upload a file to the database.
 
@@ -31,14 +34,15 @@ async def upload_file(file: UploadFile = File(...)):
     Returns:
     JSONResponse: A JSON response with a message indicating that the file was uploaded successfully
     """
-    settings.rag.store_data(file)
+    settings.rag.store_pdf_data(file)
+    print(f"File uploaded successfully")
     return JSONResponse(
         content={"message": "File uploaded successfully"}, status_code=200
     )
 
 
 @app.post("/query")
-async def query_file(query: str):
+async def query_pdf_file(query: str):
     """
     This endpoint is used to query the database for a given string.
 
