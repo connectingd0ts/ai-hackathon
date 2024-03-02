@@ -13,7 +13,7 @@ def parse_log(file):
 # this function send the log contents to open ai chatgpt for build error suggestions
 def get_error_suggestions(log):
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
+        engine="text-davinci-003",
         prompt=f"Check the following log contents for any error. If there are any errors, generate a suggestion, else, respond with \"Looks good.\":\n{log}\nSuggestion: ",
         max_tokens=300,
         n=1,  # number of completions to retrieve
