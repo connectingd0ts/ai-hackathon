@@ -1,1 +1,7 @@
-Flask
+langchain
+openai
+pypdf
+sentence-transformers
+fastapi
+black
+faiss-cpu
